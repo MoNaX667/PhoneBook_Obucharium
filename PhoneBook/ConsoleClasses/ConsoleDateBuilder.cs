@@ -23,14 +23,14 @@ namespace PhoneBook
             myContactsList = phoneBook.GetListOfContacts();
 
             // Output index
-            for (int i = startIndex; i < contactLastIndex; i++)
+            for (int i = 0; i < contactLastIndex-contactStartIndex; i++)
             {
                 Console.SetCursorPosition(2, 5 + i);
-                Console.Write(string.Format("{0}", i + 1).PadLeft(3, ' '));
+                Console.Write(string.Format("{0}", startIndex + i+1).PadLeft(3, ' '));
             }
 
             // Output Names
-            for (int i = startIndex; i < contactLastIndex; i++)
+            for (int i = 0; i < contactLastIndex-contactStartIndex; i++)
             {
                 string[] pairNamePhone = myContactsList[i].Split('/');
                 string[] nameTemp = pairNamePhone[0].Split(' ');
@@ -43,13 +43,11 @@ namespace PhoneBook
                 }
                 else {
                     Console.Write(pairNamePhone[0]);
-                }
-
-                
+                }       
             }
 
             // Output PhoneNumbers
-            for (int i = startIndex; i < contactLastIndex; i++)
+            for (int i = 0; i < contactLastIndex-contactStartIndex; i++)
             {
                 string[] pairNamePhone = myContactsList[i].Split('/');
                 string[] nameTemp = pairNamePhone[0].Split(' ');
@@ -69,7 +67,7 @@ namespace PhoneBook
             Console.SetCursorPosition(81, 2);
             Console.Write("Commands");
 
-            for (int i = 0; i < 5; i++) {
+            for (int i = 0; i < 7; i++) {
                 Console.SetCursorPosition(74, 4+i);
                 Console.Write((Commands)i);
             }
@@ -77,10 +75,33 @@ namespace PhoneBook
             // Status block
             Console.SetCursorPosition(82, 16);
             Console.Write("Status");
+            //Console.SetCursorPosition(74, 18);
+            //Console.Write(new string(' ', 10));
             Console.SetCursorPosition(74, 18);
-            Console.Write("Current lenght: {0}", myPhoneBook.GetLenght);
+            Console.Write("Current lenght: {0}".PadRight(3,' '), myPhoneBook.GetLenght);
         }
 
-        
+        public static void infoFrameClear() {
+            Console.Clear();
+
+            // Common frame
+            ConsoleFrameBuilder.DrawFrame(0, 0, 27, 98);
+
+            // Info frame
+            ConsoleFrameBuilder.DrawInfoFrame(1, 1, 26, 64);
+
+            // Command frame
+            ConsoleFrameBuilder.DrawCommandFrame(1, 72, 26, 96);
+
+            // Terminal Frame
+            ConsoleFrameBuilder.DrawTerminalFrame(28, 0, 38, 98);
+        }
+
+        public static void clearTerminalFrame() {
+            for (int i = 0; i < 6; i++) {
+                Console.SetCursorPosition(3, 29+i);
+                Console.Write(new string(' ', 60));
+            }
+        }
     }
 }

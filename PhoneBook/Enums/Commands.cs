@@ -9,5 +9,7 @@ namespace PhoneBook
         Search,
         Add,
         DeleteByID,
+        Exit,
+        ReturnToStartPage,
     }
 }
