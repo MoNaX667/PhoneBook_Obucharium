@@ -66,13 +66,14 @@ namespace PhoneBook
             Console.Write('\u252c');
             tempWidth++;
             Console.Write(new string('\u2500', (width-tempWidth)));
+            tempWidth += width - tempWidth;
             Console.Write('\u2510');
             tempWidth++;
 
             // right vertical line
-            for (int i = startHeight + 1; i < height; i++)
+            for (int i = startHeight +1; i < height; i++)
             {
-                Console.SetCursorPosition(width,i);
+                Console.SetCursorPosition(tempWidth+6,i);
 
                 // Seporate row char
                 if (i == 3)
@@ -93,7 +94,7 @@ namespace PhoneBook
                 if (i == 3)
                 {
                     Console.Write('\u251c');
-                    Console.Write(new string('\u2500', width - 5));
+                    Console.Write(new string('\u2500', width+5 ));
                     continue;
                 }
 
@@ -103,7 +104,7 @@ namespace PhoneBook
             // bottom horizontal line
             Console.SetCursorPosition(startWidth, height);
             Console.Write('\u2514');
-            Console.Write(new string('\u2500', width - 5));
+            Console.Write(new string('\u2500',width +5));
             Console.Write('\u2518');
 
             // Fist Seporate line

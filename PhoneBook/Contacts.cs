@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace PhoneBook
 {
@@ -9,6 +10,12 @@ namespace PhoneBook
         // Members
         private List<Person> myContacts = new List<Person>();
 
+        public Contacts() {
+        }
+
+        public Contacts(List<Person> searchList) {
+            myContacts = searchList;
+        }
         public int GetLenght {
             get {
                 return myContacts.Count;
@@ -56,45 +63,6 @@ namespace PhoneBook
         }
 
         /// <summary>
-        /// Change contact by id
-        /// </summary>
-        /// <param name="idOfContact">Id of target element</param>
-        /// <param name="secondName"></param>
-        /// <param name="foreName"></param>
-        /// <param name="middleName"></param>
-        /// <param name="phoneNumber"></param>
-        public Error ChangeContactById(int idOfContact, string surName, string foreName,
-            string middleName, string phoneNumber) {
-
-            if (!(idOfContact > 0) && !(idOfContact <= myContacts.Count)){
-                return Error.WrongId;
-            }
-
-            if (!checkPhoneNumberFormat(phoneNumber)) {
-                return Error.WrongPhoneNumberFormat;
-            }
-
-            if (!string.IsNullOrEmpty(surName)) {
-                myContacts[idOfContact].ChangeSurName(surName);
-            }
-
-            if (!string.IsNullOrEmpty(foreName)){
-                myContacts[idOfContact].ChangeForeName(foreName);
-            }
-
-            if (!string.IsNullOrEmpty(foreName)){
-                myContacts[idOfContact].ChangeMiddleName(middleName);
-            }
-
-            if (!string.IsNullOrEmpty(foreName))
-            {
-                myContacts[idOfContact].ChangePhoneNumber(phoneNumber);
-            }
-
-            return Error.None;
-        }
-
-        /// <summary>
         /// Method must return list of string , than saved names and phone numbers seporated 
         /// by char '/'
         /// </summary>
@@ -138,19 +106,102 @@ namespace PhoneBook
                 return Error.FileNotFound;
             }
 
-            FileStream contactStream = new FileStream(filename, FileMode.Open);
-            StreamReader reader = new StreamReader(contactStream);
-
             string[] personParams;
 
-            while (!reader.EndOfStream) {
-                personParams = reader.ReadLine().Split(' ');
-                myContacts.Add(new Person(personParams[0], personParams[1], personParams[2],
-                    personParams[3]));
+            using (FileStream contactStream = new FileStream(filename, FileMode.Open))
+            using (StreamReader reader = new StreamReader(contactStream)) {
+                while (!reader.EndOfStream)
+                {
+                    personParams = reader.ReadLine().Split(' ');
+                    myContacts.Add(new Person(personParams[0], personParams[1], personParams[2],
+                        personParams[3]));
+                }
             }
 
             return Error.None;
         }
 
+        /// <summary>
+        /// Save phoneBook to filename.txt file
+        /// </summary>
+        /// <param name="filename">Filename or full path</param>
+        public void SaveContactList(string filename) {
+            
+            using(StreamWriter writer = new StreamWriter(filename)){
+                for (int i = 0; i < myContacts.Count; i++)
+                {
+                    writer.WriteLine(string.Format("{0} {1}", myContacts[i].Name,
+                        myContacts[i].PhoneNumber));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Sorting by surName
+        /// </summary>
+        /// <param name="surName"></param>
+        /// <returns></returns>
+        public List<Person> SearchBySurname(string surName)
+        {
+            return myContacts.Where(n => n.SurName == surName).ToList();
+        }
+
+        /// <summary>
+        /// Sorting by forename
+        /// </summary>
+        /// <param name="foreName"></param>
+        /// <returns></returns>
+        public List<Person> SearchByForeName(string foreName)
+        {
+            return myContacts.Where(n => n. ForeName== foreName).ToList();
+        }
+
+        /// <summary>
+        /// Sorting by middleName
+        /// </summary>
+        /// <param name="middleName"></param>
+        /// <returns></returns>
+        public List<Person> SearchByMiddleName(string middleName)
+        {
+            return myContacts.Where(n => n.MiddleName == middleName).ToList();
+        }
+
+        /// <summary>
+        /// Sorting by phoneNumber
+        /// </summary>
+        /// <param name="phone"></param>
+        /// <returns></returns>
+        public List<Person> SearchByPhone(string phone)
+        {
+            return myContacts.Where(n => n.PhoneNumber == phone).ToList();
+        }
+
+        /// <summary>
+        /// Sort phoneBook by any of contact parametrs if type of sorting different from 
+        /// inside  sorting crashed
+        /// </summary>
+        /// <param name="type">type of operation 1- By surName; 2- By foreName; 3- By middleName;
+        /// 4- By phoneNumber
+        /// </param>
+        public void Sort(int type)
+        {
+            if (type < 1||type >4) { return; }
+            else if (type == 1)
+            {
+                myContacts=myContacts.OrderBy(element => element.SurName).ToList();
+            }
+            else if (type == 2)
+            {
+                myContacts = this.myContacts.OrderBy(n => n.ForeName).ToList();
+            }
+            else if (type == 3)
+            {
+                myContacts = this.myContacts.OrderBy(n => n.MiddleName).ToList();
+            }
+            else if (type == 4)
+            {
+                myContacts = this.myContacts.OrderBy(n => n.PhoneNumber).ToList();
+            }
+        }
     }
 }

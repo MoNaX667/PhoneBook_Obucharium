@@ -7,7 +7,10 @@ namespace PhoneBook
         NextPage,
         PrevioslyPage,
         Search,
+        Sort,
         Add,
         DeleteByID,
+        ExitAndSaveChanged,
+        ReturnToStartPage,
     }
 }

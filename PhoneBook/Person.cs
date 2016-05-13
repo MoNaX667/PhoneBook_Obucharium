@@ -27,6 +27,21 @@ namespace PhoneBook
         private string middleName;
         private string phoneNumber;
 
+        public string SurName {
+            get { return surName; }
+            set { surName = value; }
+        }
+        public string ForeName
+        {
+            get { return foreName; }
+            set { foreName = value; }
+        }
+        public string MiddleName{
+            get { return middleName; }
+            set { middleName = value; }
+        }
+
+
         // Properties
         /// <summary>
         /// Return string with surname, forename, middlename seporated by spaces
