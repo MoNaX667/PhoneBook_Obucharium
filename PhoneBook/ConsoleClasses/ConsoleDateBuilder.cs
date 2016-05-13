@@ -16,6 +16,8 @@ namespace PhoneBook
             int startIndex = contactStartIndex;
             contactLastIndex=startIndex+20;
 
+            // Check list for next 20 element if its true than output 20 elements on page
+            // else list.count-startIndex
             if(phoneBook.GetLenght<(startIndex+20)){
                 contactLastIndex=startIndex+(phoneBook.GetLenght-startIndex);
             }
@@ -32,11 +34,12 @@ namespace PhoneBook
             // Output Names
             for (int i = 0; i < contactLastIndex-contactStartIndex; i++)
             {
-                string[] pairNamePhone = myContactsList[i].Split('/');
+                string[] pairNamePhone = myContactsList[startIndex+i].Split('/');
                 string[] nameTemp = pairNamePhone[0].Split(' ');
 
                 Console.SetCursorPosition(8, 5 + i);
 
+                // If lenght of name big ... forename and middlename was replaced by first letter
                 if (pairNamePhone[0].Length > 45){
                     Console.Write(string.Format("{0} {1}.{2}.", nameTemp[0],
                         nameTemp[1][0], nameTemp[2][0]));
@@ -75,8 +78,8 @@ namespace PhoneBook
             // Status block
             Console.SetCursorPosition(82, 16);
             Console.Write("Status");
-            //Console.SetCursorPosition(74, 18);
-            //Console.Write(new string(' ', 10));
+            Console.SetCursorPosition(74, 18);
+            Console.Write(new string(' ', 23));
             Console.SetCursorPosition(74, 18);
             Console.Write("Current lenght: {0}".PadRight(3,' '), myPhoneBook.GetLenght);
         }
@@ -100,7 +103,7 @@ namespace PhoneBook
         public static void clearTerminalFrame() {
             for (int i = 0; i < 6; i++) {
                 Console.SetCursorPosition(3, 29+i);
-                Console.Write(new string(' ', 60));
+                Console.Write(new string(' ', 94));
             }
         }
     }
