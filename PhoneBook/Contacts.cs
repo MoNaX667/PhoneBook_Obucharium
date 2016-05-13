@@ -10,6 +10,12 @@ namespace PhoneBook
         // Members
         private List<Person> myContacts = new List<Person>();
 
+        public Contacts() {
+        }
+
+        public Contacts(List<Person> searchList) {
+            myContacts = searchList;
+        }
         public int GetLenght {
             get {
                 return myContacts.Count;
@@ -135,9 +141,9 @@ namespace PhoneBook
         /// </summary>
         /// <param name="surName"></param>
         /// <returns></returns>
-        public IEnumerable<Person> SearchBySurname(string surName)
+        public List<Person> SearchBySurname(string surName)
         {
-            return myContacts.Where(n => n.SurName == surName);
+            return myContacts.Where(n => n.SurName == surName).ToList();
         }
 
         /// <summary>
@@ -145,9 +151,9 @@ namespace PhoneBook
         /// </summary>
         /// <param name="foreName"></param>
         /// <returns></returns>
-        public IEnumerable<Person> SearchByForeName(string foreName)
+        public List<Person> SearchByForeName(string foreName)
         {
-            return myContacts.Where(n => n. ForeName== foreName);
+            return myContacts.Where(n => n. ForeName== foreName).ToList();
         }
 
         /// <summary>
@@ -155,9 +161,9 @@ namespace PhoneBook
         /// </summary>
         /// <param name="middleName"></param>
         /// <returns></returns>
-        public IEnumerable<Person> SearchByMiddleName(string middleName)
+        public List<Person> SearchByMiddleName(string middleName)
         {
-            return myContacts.Where(n => n.MiddleName == middleName);
+            return myContacts.Where(n => n.MiddleName == middleName).ToList();
         }
 
         /// <summary>
@@ -165,9 +171,9 @@ namespace PhoneBook
         /// </summary>
         /// <param name="phone"></param>
         /// <returns></returns>
-        public IEnumerable<Person> SearchByPhone(string phone)
+        public List<Person> SearchByPhone(string phone)
         {
-            return myContacts.Where(n => n.PhoneNumber == phone);
+            return myContacts.Where(n => n.PhoneNumber == phone).ToList();
         }
 
         /// <summary>

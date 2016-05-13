@@ -56,8 +56,21 @@ namespace PhoneBook
                         break;
                         // Search
                     case Commands.Search:{
+                            int startPos = 0, endPos = 0;
+
+                            // Search target information
                             ConsoleDateBuilder.clearTerminalFrame();
-                            
+                            Search(ref myPhoneBook, ref searchList);
+
+                            // Craete new phoneBook list
+                            Contacts temp = new Contacts(searchList);
+                            endPos = searchList.Count;
+
+                            // Output information
+                            ConsoleDateBuilder.infoFrameClear();
+                            ConsoleDateBuilder.LoadStartInfo(temp, 
+                                ref startPos, ref endPos);
+                            ConsoleDateBuilder.LoadCommandInfo(temp);
                         }
                         break;
                     // Sort
@@ -73,7 +86,6 @@ namespace PhoneBook
                             SaveFile(filename, myPhoneBook);
                             return Error.None;
                         }
-                        break;
                         // Return to start page
                     case Commands.ReturnToStartPage: {
                             // Return to start page
@@ -326,11 +338,100 @@ namespace PhoneBook
                 Console.SetCursorPosition(3, 29);
                 Console.Write("Bad sorting index... operation will be crashed");
             }
-            
         }
 
-        private static void SaveFile() {
+        /// <summary>
+        /// Search some contact by some params
+        /// </summary>
+        private static void Search(ref Contacts myPhoneBook,ref List<Person> searchList)
+        {
+            string temp = "";
+            int indexOfSearchParam = 0;
 
+            // Clear user teminal
+            ConsoleDateBuilder.clearTerminalFrame();
+            Console.SetCursorPosition(3, 29);
+            Console.Write("Input index of param for searching (1-surName; 2- foreName;" +
+                "3- middleName; 4- phoneNumber) >> ");
+
+            if (int.TryParse(Console.ReadLine(), out indexOfSearchParam)){
+                if (indexOfSearchParam == 1){
+                    // surName search
+                    Console.SetCursorPosition(3, 30);
+                    Console.Write("Input target surName >> ");
+
+                    // If string is null or Empthy than break 
+                    if (!string.IsNullOrEmpty(temp = Console.ReadLine())){
+                        // searchList contains result
+                        searchList=myPhoneBook.SearchBySurname(temp);
+                        return;
+                    }
+                    else {
+                        Console.SetCursorPosition(3, 31);
+                        Console.Write("Bad input ... operation will be crashed ");
+                        return;
+                    }
+                }
+                else if (indexOfSearchParam == 2){
+                    // foreName search
+                    Console.SetCursorPosition(3, 30);
+                    Console.Write("Input target foreName >> ");
+
+                    // If string is null or Empthy than break 
+                    if (!string.IsNullOrEmpty(temp = Console.ReadLine()))
+                    {
+                        // searchList contains result
+                        searchList = myPhoneBook.SearchByForeName(temp);
+                        return;
+                    }
+                    else {
+                        Console.SetCursorPosition(3, 31);
+                        Console.Write("Bad input ... operation will be crashed ");
+                        return;
+                    }
+                }
+                else if (indexOfSearchParam == 3){
+                    // middleName search
+                    Console.SetCursorPosition(3, 30);
+                    Console.Write("Input target middleName >> ");
+
+                    // If string is null or Empthy than break 
+                    if (!string.IsNullOrEmpty(temp = Console.ReadLine()))
+                    {
+                        // searchList contains result
+                        searchList = myPhoneBook.SearchByMiddleName(temp);
+                        return;
+                    }
+                    else {
+                        Console.SetCursorPosition(3, 31);
+                        Console.Write("Bad input ... operation will be crashed ");
+                        return;
+                    }
+                }
+                else if (indexOfSearchParam == 4) {
+                    // phoneNumber search
+                    Console.SetCursorPosition(3, 30);
+                    Console.Write("Input target phoneNumber (x-xxx-xxx-xxxx) >> ");
+
+                    // If string is null or Empthy than break 
+                    if (!string.IsNullOrEmpty(temp = Console.ReadLine()))
+                    {
+                        // searchList contains result
+                        searchList = myPhoneBook.SearchByPhone(temp);
+                        return;
+                    }
+                    else {
+                        Console.SetCursorPosition(3, 31);
+                        Console.Write("Bad input ... operation will be crashed ");
+                        return;
+                    }
+                }
+                return;
+            }
+
+            Console.SetCursorPosition(3, 30);
+            Console.Write("Operation will be crashed... bad input");
+            return;
         }
     }
 }

@@ -70,7 +70,7 @@ namespace PhoneBook
             Console.SetCursorPosition(81, 2);
             Console.Write("Commands");
 
-            for (int i = 0; i < 7; i++) {
+            for (int i = 0; i < 8; i++) {
                 Console.SetCursorPosition(74, 4+i);
                 Console.Write((Commands)i);
             }
