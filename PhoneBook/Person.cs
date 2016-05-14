@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace PhoneBook
 {
-    class Person:IComparable<Person>
+    class Person
     {
         // Constructor
         /// <summary>
@@ -58,42 +58,5 @@ namespace PhoneBook
             }
         }
 
-        // Methods
-        /// <summary>
-        /// Change surname
-        /// </summary>
-        /// <param name="surName">new surName</param>
-        public void ChangeSurName(string newSurName) {
-            this.surName = newSurName;
-        }
-
-        /// <summary>
-        /// Change forename
-        /// </summary>
-        /// <param name="foreName">new foreName</param>
-        public void ChangeForeName(string newForeName) {
-            this.foreName = newForeName;
-        }
-
-        /// <summary>
-        /// Change middle name
-        /// </summary>
-        /// <param name="middleName">new middle name</param>
-        public void ChangeMiddleName(string newMiddleName) {
-            this.middleName = newMiddleName;
-        }
-
-        /// <summary>
-        /// Change phone number of format x-xxx-xxx-xxxx
-        /// </summary>
-        /// <param name="newPhoneNumber">string of phone number in format x-xxx-xxx-xxxx</param>
-        public void ChangePhoneNumber(string newPhoneNumber) {
-            this.phoneNumber = newPhoneNumber;
-        }
-
-        public int CompareTo(Person other)
-        {
-            return 0;
-        }
     }
 }
