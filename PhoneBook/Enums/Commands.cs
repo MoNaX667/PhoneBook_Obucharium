@@ -12,5 +12,7 @@ namespace PhoneBook
         DeleteByID,
         ExitAndSaveChanged,
         ReturnToStartPage,
+        CreateTestList,
+        ClearList,
     }
 }

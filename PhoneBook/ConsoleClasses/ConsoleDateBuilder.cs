@@ -70,7 +70,7 @@ namespace PhoneBook
             Console.SetCursorPosition(81, 2);
             Console.Write("Commands");
 
-            for (int i = 0; i < 8; i++) {
+            for (int i = 0; i < 10; i++) {
                 Console.SetCursorPosition(74, 4+i);
                 Console.Write((Commands)i);
             }
@@ -84,7 +84,7 @@ namespace PhoneBook
             Console.Write("Current lenght: {0}".PadRight(3,' '), myPhoneBook.GetLenght);
         }
 
-        public static void infoFrameClear() {
+        public static void ClearInfoFrame() {
             Console.Clear();
 
             // Common frame
@@ -100,7 +100,7 @@ namespace PhoneBook
             ConsoleFrameBuilder.DrawTerminalFrame(28, 0, 38, 98);
         }
 
-        public static void clearTerminalFrame() {
+        public static void ClearTerminalFrame() {
             for (int i = 0; i < 6; i++) {
                 Console.SetCursorPosition(3, 29+i);
                 Console.Write(new string(' ', 94));

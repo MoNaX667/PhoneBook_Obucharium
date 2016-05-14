@@ -15,7 +15,7 @@ namespace PhoneBook
             int contactEndIndex = 0;
             Contacts myPhoneBook = new Contacts();
             List<Person> searchList = new List<Person>();
-            ConsoleDateBuilder.clearTerminalFrame();
+            ConsoleDateBuilder.ClearTerminalFrame();
 
             // If file not found work will start with clean contact list
             TryReadPhoneBook(filename, myPhoneBook);
@@ -24,7 +24,7 @@ namespace PhoneBook
 
             // App loop
             while (true) {
-                ConsoleDateBuilder.clearTerminalFrame();
+                ConsoleDateBuilder.ClearTerminalFrame();
 
                 switch (WaitUserCommand()){
                     // Add new contact
@@ -36,9 +36,10 @@ namespace PhoneBook
                         break;
                         // Delete By id
                     case Commands.DeleteByID: {
-                            ConsoleDateBuilder.clearTerminalFrame();
+                            ConsoleDateBuilder.ClearTerminalFrame();
                             DeleteByID(ref myPhoneBook);
 
+                            ConsoleDateBuilder.ClearInfoFrame();
                             LoadGeneralPage(myPhoneBook, ref contactStartIndex, ref contactEndIndex);
                         }
                         break;
@@ -59,7 +60,7 @@ namespace PhoneBook
                             int startPos = 0, endPos = 0;
 
                             // Search target information
-                            ConsoleDateBuilder.clearTerminalFrame();
+                            ConsoleDateBuilder.ClearTerminalFrame();
                             Search(ref myPhoneBook, ref searchList);
 
                             // Craete new phoneBook list
@@ -67,7 +68,7 @@ namespace PhoneBook
                             endPos = searchList.Count;
 
                             // Output information
-                            ConsoleDateBuilder.infoFrameClear();
+                            ConsoleDateBuilder.ClearInfoFrame();
                             ConsoleDateBuilder.LoadStartInfo(temp, 
                                 ref startPos, ref endPos);
                             ConsoleDateBuilder.LoadCommandInfo(temp);
@@ -88,9 +89,20 @@ namespace PhoneBook
                         }
                         // Return to start page
                     case Commands.ReturnToStartPage: {
-                            // Return to start page
-                            ConsoleDateBuilder.clearTerminalFrame();
-                            contactStartIndex = contactEndIndex = 0;
+                            
+                        }
+                        break;
+                    case Commands.ClearList: {
+                            ClearList(filename,ref myPhoneBook);
+
+                            // Load previosly page with new index
+                            LoadGeneralPage(myPhoneBook, ref contactStartIndex, ref contactEndIndex);
+                        }
+                        break;
+                    case Commands.CreateTestList: {
+                            CreateTestContactList(filename, ref myPhoneBook);
+
+                            // Load previosly page with new index
                             LoadGeneralPage(myPhoneBook, ref contactStartIndex, ref contactEndIndex);
                         }
                         break;
@@ -147,19 +159,36 @@ namespace PhoneBook
             Console.SetCursorPosition(3, 31);
             Console.CursorVisible = true;
             Console.Write(">> ");
-            string temp = Console.ReadLine();
+            string tempCommand = Console.ReadLine();
+            //char [] temp= tempCommand.ToCharArray();
             Commands userCommand=Commands.ReturnToStartPage;
 
+            // Check user command
+            for (int i = 0; i <= 10; i++)
+            {
+                if (((Commands)i).ToString().ToLower() == tempCommand.ToLower())
+                {
+                    userCommand = (Commands)i;
+                    Console.CursorVisible = false;
+                    Console.ForegroundColor = oldColor;
+                    return userCommand;
+                }
+            }
+
+            Console.SetCursorPosition(3, 32);
+            Console.Write("Command not identified");
+            Console.SetCursorPosition(3, 33);
+            Console.ReadKey();
             // Parse input string user command
-            try{
-                 userCommand= (Commands)Enum.Parse(typeof(Commands), temp);
-            }
-            catch (Exception excep){
-                Console.SetCursorPosition(3, 32);
-                Console.Write("Command not identified");
-                Console.SetCursorPosition(3, 33);
-                Console.ReadKey();
-            }
+            //try{
+            //     userCommand= (Commands)Enum.Parse(typeof(Commands), temp);
+            //}
+            //catch (ArgumentException excep){
+            //    Console.SetCursorPosition(3, 32);
+            //    Console.Write("Command not identified");
+            //    Console.SetCursorPosition(3, 33);
+            //    Console.ReadKey();
+            //}
 
             Console.CursorVisible = false;
             Console.ForegroundColor = oldColor;
@@ -175,7 +204,7 @@ namespace PhoneBook
             string surName = "", foreName = "", middleName = "", phoneNumber = "";
 
             // Clear user teminal
-            ConsoleDateBuilder.clearTerminalFrame();
+            ConsoleDateBuilder.ClearTerminalFrame();
             Console.SetCursorPosition(3, 29);
             Console.Write("Input surname >> ");
 
@@ -188,13 +217,13 @@ namespace PhoneBook
                 if (!char.IsLetter(value))
                 {
                     Console.SetCursorPosition(3, 30);
-                    Console.Write("Bad input. Operation crashed");
+                    Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
                     Console.ReadKey();
                 }
             }
 
             // Input foreName
-            ConsoleDateBuilder.clearTerminalFrame();
+            ConsoleDateBuilder.ClearTerminalFrame();
             Console.SetCursorPosition(3, 29);
             Console.Write("Input foreName >> ");
 
@@ -206,13 +235,13 @@ namespace PhoneBook
                 if (!char.IsLetter(value))
                 {
                     Console.SetCursorPosition(3, 30);
-                    Console.Write("Bad input. Operation crashed");
+                    Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
                     Console.ReadKey();
                 }
             }
 
             // Input foreName
-            ConsoleDateBuilder.clearTerminalFrame();
+            ConsoleDateBuilder.ClearTerminalFrame();
             Console.SetCursorPosition(3, 29);
             Console.Write("Input middleName >> ");
             middleName = Console.ReadLine();
@@ -223,20 +252,28 @@ namespace PhoneBook
                 if (!char.IsLetter(value))
                 {
                     Console.SetCursorPosition(3, 30);
-                    Console.Write("Bad input. Operation crashed");
+                    Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
                     Console.ReadKey();
                 }
             }
 
             // Input phoneNumber
-            ConsoleDateBuilder.clearTerminalFrame();
+            ConsoleDateBuilder.ClearTerminalFrame();
             Console.SetCursorPosition(3, 29);
             Console.Write("Input phoneNumber (in second format x-xxx-xxx-xxxx) >> ");
             phoneNumber = Console.ReadLine();
 
+            // PhoneNumber Check
+            if (!CheckPhoneNumber(phoneNumber)) {
+                Console.SetCursorPosition(3, 30);
+                Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
+                Console.ReadKey();
+                return;
+            }
+
             if (!myPhoneBook.Add(surName, foreName, middleName, phoneNumber)) {
                 Console.SetCursorPosition(3, 30);
-                Console.Write("Bad input. Operation crashed");
+                Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
                 Console.ReadKey();
             }
 
@@ -274,8 +311,8 @@ namespace PhoneBook
         /// <param name="contactEndIndex"></param>
         private static void MoveNextPage(ref Contacts myPhoneBook,ref int contactStartIndex,
             ref int contactEndIndex) {
-            ConsoleDateBuilder.clearTerminalFrame();
-            ConsoleDateBuilder.infoFrameClear();
+            ConsoleDateBuilder.ClearTerminalFrame();
+            ConsoleDateBuilder.ClearInfoFrame();
             contactStartIndex = contactEndIndex;
 
             // Try get next index
@@ -299,8 +336,8 @@ namespace PhoneBook
         /// <param name="contactEndIndex"></param>
         private static void MovePrevioslyPage(ref Contacts myPhoneBook,ref int contactStartIndex,
             ref int contactEndIndex) {
-            ConsoleDateBuilder.clearTerminalFrame();
-            ConsoleDateBuilder.infoFrameClear();
+            ConsoleDateBuilder.ClearTerminalFrame();
+            ConsoleDateBuilder.ClearInfoFrame();
 
             // Try get previosly index
             if (contactStartIndex == 0)
@@ -323,7 +360,7 @@ namespace PhoneBook
         /// </summary>
         /// <param name="myPhoneBook"></param>
         private static void Sort(ref Contacts myPhoneBook) {
-            ConsoleDateBuilder.clearTerminalFrame();
+            ConsoleDateBuilder.ClearTerminalFrame();
 
             int typeOfSorting = 0;
 
@@ -349,7 +386,7 @@ namespace PhoneBook
             int indexOfSearchParam = 0;
 
             // Clear user teminal
-            ConsoleDateBuilder.clearTerminalFrame();
+            ConsoleDateBuilder.ClearTerminalFrame();
             Console.SetCursorPosition(3, 29);
             Console.Write("Input index of param for searching (1-surName; 2- foreName;" +
                 "3- middleName; 4- phoneNumber) >> ");
@@ -368,7 +405,7 @@ namespace PhoneBook
                     }
                     else {
                         Console.SetCursorPosition(3, 31);
-                        Console.Write("Bad input ... operation will be crashed ");
+                        Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
                         return;
                     }
                 }
@@ -386,7 +423,7 @@ namespace PhoneBook
                     }
                     else {
                         Console.SetCursorPosition(3, 31);
-                        Console.Write("Bad input ... operation will be crashed ");
+                        Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
                         return;
                     }
                 }
@@ -404,7 +441,7 @@ namespace PhoneBook
                     }
                     else {
                         Console.SetCursorPosition(3, 31);
-                        Console.Write("Bad input ... operation will be crashed ");
+                        Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
                         return;
                     }
                 }
@@ -422,7 +459,7 @@ namespace PhoneBook
                     }
                     else {
                         Console.SetCursorPosition(3, 31);
-                        Console.Write("Bad input ... operation will be crashed ");
+                        Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
                         return;
                     }
                 }
@@ -430,8 +467,63 @@ namespace PhoneBook
             }
 
             Console.SetCursorPosition(3, 30);
-            Console.Write("Operation will be crashed... bad input");
+            Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
             return;
+        }
+
+        private static bool CheckPhoneNumber(string phoneNumber) {
+            for (int i = 0; i < phoneNumber.Length; i++) {
+
+                if ((!char.IsDigit(phoneNumber[i]) || (phoneNumber[i] != '-'))){
+                    return false;
+                }
+            }
+
+            string[] blocksOfPhoneNumber = phoneNumber.Split('-');
+
+            if (blocksOfPhoneNumber.Length < 4) {
+                return false;
+            }
+
+            if ((blocksOfPhoneNumber[0].Length != 1) &&
+                (blocksOfPhoneNumber[1].Length != 3) &&
+                (blocksOfPhoneNumber[2].Length != 3) &&
+                 (blocksOfPhoneNumber[3].Length!=4) )  {
+                return false;
+            }
+
+            return true;
+        }
+
+        private static void CreateTestContactList(string filename, ref Contacts myPhoneBook){
+            RandomContactListCreator creator = new RandomContactListCreator();
+
+            Console.SetCursorPosition(3, 29);
+            Console.Write("Input count of test list >> ");
+            int countTestList = 0;
+
+            if (!int.TryParse(Console.ReadLine(), out countTestList)) {
+                Console.SetCursorPosition(3, 30);
+                Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
+                return;
+            }
+
+            File.WriteAllLines(filename, creator.CreateContactList(countTestList));
+
+            // If file not found work will start with clean contact list
+            TryReadPhoneBook(filename, myPhoneBook);
+            myPhoneBook.Sort(1);
+
+            ConsoleDateBuilder.ClearInfoFrame();
+            ConsoleDateBuilder.ClearTerminalFrame();
+
+        }
+
+        private static void ClearList(string filename, ref Contacts myPhoneBook) {
+            myPhoneBook = new Contacts();
+
+            ConsoleDateBuilder.ClearInfoFrame();
+            ConsoleDateBuilder.ClearTerminalFrame();
         }
     }
 }
