@@ -30,6 +30,7 @@ namespace PhoneBook
                     // Add new contact
                     case Commands.Add: {
                             Add(ref myPhoneBook);
+                            ConsoleDateBuilder.ClearInfoFrame();
 
                             LoadGeneralPage(myPhoneBook, ref contactStartIndex, ref contactEndIndex);
                         }
@@ -474,7 +475,9 @@ namespace PhoneBook
         private static bool CheckPhoneNumber(string phoneNumber) {
             for (int i = 0; i < phoneNumber.Length; i++) {
 
-                if ((!char.IsDigit(phoneNumber[i]) || (phoneNumber[i] != '-'))){
+                char temp = phoneNumber[i];
+
+                if ((!char.IsDigit(temp) && (temp != '-'))){
                     return false;
                 }
             }
