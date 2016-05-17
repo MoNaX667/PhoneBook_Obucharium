@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace PhoneBook
+﻿namespace PhoneBook
 {
     enum Error
     {

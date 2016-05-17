@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace PhoneBook
+﻿namespace PhoneBook
 {
-    class Program
+    using System;
+
+    internal class Program
     {
-        static void Main(string[] args)
+        public static void Main()
         {
             string filename = "ContactList.txt";
 
@@ -20,8 +19,5 @@ namespace PhoneBook
             // StartApp
             PhoneBookEngine.StartWork(filename);
         }
-
-                
-        
     }
 }

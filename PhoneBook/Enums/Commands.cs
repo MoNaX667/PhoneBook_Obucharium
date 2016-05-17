@@ -9,7 +9,7 @@ namespace PhoneBook
         Search,
         Sort,
         Add,
-        DeleteByID,
+        DeleteById,
         ExitAndSaveChanged,
         ReturnToStartPage,
         CreateTestList,
