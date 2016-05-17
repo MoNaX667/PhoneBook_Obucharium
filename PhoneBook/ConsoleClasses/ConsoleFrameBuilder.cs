@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace PhoneBook
+﻿namespace PhoneBook
 {
-    static class ConsoleFrameBuilder
+    using System;
+
+    internal static class ConsoleFrameBuilder
     {
         /// <summary>
         /// Draw simple frame
@@ -17,7 +13,6 @@ namespace PhoneBook
         /// <param name="width"></param>
         public static void DrawFrame(int startHeight, int startWidth, int height, int width)
         {
-
             // Top horizontal line
             Console.SetCursorPosition(startWidth, startHeight);
             Console.Write('\u250c');
@@ -108,15 +103,18 @@ namespace PhoneBook
             Console.Write('\u2518');
 
             // Fist Seporate line
-            for (int i = startHeight + 1; i <= height; i++){
+            for (int i = startHeight + 1; i <= height; i++)
+            {
                 Console.SetCursorPosition(startWidth + 5, i);
 
-                if (i == startWidth + 2){
+                if (i == startWidth + 2)
+                {
                     Console.Write('\u253c');
                     continue;
                 }
 
-                if (i == height){
+                if (i == height)
+                {
                     Console.SetCursorPosition(startWidth + 5, i);
                     Console.Write('\u2534');
                     break;
@@ -126,15 +124,18 @@ namespace PhoneBook
             }
 
             // Second Seporate line
-            for (int i = startHeight + 1; i <= height; i++){
+            for (int i = startHeight + 1; i <= height; i++)
+            {
                 Console.SetCursorPosition(startWidth + 47, i);
 
-                if (i == startWidth + 2){
+                if (i == startWidth + 2)
+                {
                     Console.Write('\u253c');
                     continue;
                 }
 
-                if (i == height){
+                if (i == height)
+                {
                     Console.SetCursorPosition(startWidth + 47, i);
                     Console.Write('\u2534');
                     break;
@@ -184,20 +185,20 @@ namespace PhoneBook
         /// <summary>
         /// Build terminal frame
         /// </summary>
-        /// <param name="startHeight"></param>
-        /// <param name="startWidth"></param>
-        /// <param name="height"></param>
-        /// <param name="width"></param>
-        public static void DrawTerminalFrame(int startHeight, int startWidth, int height,
-            int width){
-            ConsoleFrameBuilder.DrawFrame(startHeight,startWidth,height,width);
+        /// <param name="startHeight">startHeight</param>
+        /// <param name="startWidth">startWidth</param>
+        /// <param name="height"><height/param>
+        /// <param name="width">width</param>
+        public static void DrawTerminalFrame(int startHeight, int startWidth, int height, int width)
+        {
+            ConsoleFrameBuilder.DrawFrame(startHeight, startWidth, height,width);
 
             // Set Foregroundcolor for inputing
             var oldColor = Console.ForegroundColor;
             Console.ForegroundColor = ConsoleColor.Green;
 
             // Welcome tex block
-            Console.SetCursorPosition(3,29);
+            Console.SetCursorPosition(3, 29);
             Console.Write("Are you welcome to control terminal ... Please input command");
 
             // Set default color

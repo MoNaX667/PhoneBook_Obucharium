@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace PhoneBook
+﻿namespace PhoneBook
 {
     class Person
     {
@@ -28,35 +25,29 @@ namespace PhoneBook
         private string phoneNumber;
 
         public string SurName {
-            get { return surName; }
-            set { surName = value; }
+            get { return this.surName; }
+            set { this.surName = value; }
         }
         public string ForeName
         {
-            get { return foreName; }
-            set { foreName = value; }
+            get { return this.foreName; }
+            set { this.foreName = value; }
         }
         public string MiddleName{
-            get { return middleName; }
-            set { middleName = value; }
+            get { return this.middleName; }
+            set { this.middleName = value; }
         }
 
-
         // Properties
+
         /// <summary>
         /// Return string with surname, forename, middlename seporated by spaces
         /// </summary>
-        public string Name {
-            get {
-                return string.Format("{0} {1} {2}", surName, foreName, middleName);
-            }
-        }
+        public string Name => string.Format("{0} {1} {2}", this.surName, this.foreName, this.middleName);
 
-        public string PhoneNumber {
-            get {
-                return phoneNumber;
-            }
-        }
-
+        /// <summary>
+        /// PhoneNumber
+        /// </summary>
+        public string PhoneNumber => this.phoneNumber;
     }
 }

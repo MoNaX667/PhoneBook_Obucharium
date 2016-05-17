@@ -1,77 +1,80 @@
-﻿using System;
-using System.Collections.Generic;
+﻿namespace PhoneBook
+{ 
+    using System;
+    using System.Collections.Generic;
 
-namespace PhoneBook
-{
-    class ConsoleDateBuilder
+    internal class ConsoleDateBuilder
     {
         /// <summary>
         /// Load start info in info block
         /// </summary>
-        /// <param name="phoneBook"></param>
-        public static void LoadStartInfo(Contacts phoneBook,ref int contactStartIndex,
-            ref int contactLastIndex )
+        /// <param name="phoneBook">phoneBook</param>
+        /// <param name="contactStartIndex">contactStartIndex</param>
+        /// <param name="contactLastIndex">contactLastIndex</param>
+        public static void LoadStartInfo(Contacts phoneBook, ref int contactStartIndex, ref int contactLastIndex)
         {
             List<string> myContactsList = new List<string>();
             int startIndex = contactStartIndex;
-            contactLastIndex=startIndex+20;
+            contactLastIndex = startIndex + 20;
 
             // Check list for next 20 element if its true than output 20 elements on page
             // else list.count-startIndex
-            if(phoneBook.GetLenght<(startIndex+20)){
-                contactLastIndex=startIndex+(phoneBook.GetLenght-startIndex);
+            if (phoneBook.GetLenght < (startIndex + 20))
+            {
+                contactLastIndex = startIndex + (phoneBook.GetLenght - startIndex);
             }
 
             myContactsList = phoneBook.GetListOfContacts();
 
             // Output index
-            for (int i = 0; i < contactLastIndex-contactStartIndex; i++)
+            for (int i = 0; i < contactLastIndex - contactStartIndex; i++)
             {
                 Console.SetCursorPosition(2, 5 + i);
-                Console.Write(string.Format("{0}", startIndex + i+1).PadLeft(3, ' '));
+                Console.Write($"{startIndex + i + 1}".PadLeft(3, ' '));
             }
 
             // Output Names
-            for (int i = 0; i < contactLastIndex-contactStartIndex; i++)
+            for (int i = 0; i < contactLastIndex - contactStartIndex; i++)
             {
-                string[] pairNamePhone = myContactsList[startIndex+i].Split('/');
+                string[] pairNamePhone = myContactsList[startIndex + i].Split('/');
                 string[] nameTemp = pairNamePhone[0].Split(' ');
 
                 Console.SetCursorPosition(8, 5 + i);
 
                 // If lenght of name big ... forename and middlename was replaced by first letter
-                if (pairNamePhone[0].Length > 45){
-                    Console.Write(string.Format("{0} {1}.{2}.", nameTemp[0],
-                        nameTemp[1][0], nameTemp[2][0]));
+                if (pairNamePhone[0].Length > 45)
+                {
+                    Console.Write("{0} {1}.{2}.", nameTemp[0], nameTemp[1][0], nameTemp[2][0]);
                 }
-                else {
+                else
+                {
                     Console.Write(pairNamePhone[0]);
                 }       
             }
 
             // Output PhoneNumbers
-            for (int i = 0; i < contactLastIndex-contactStartIndex; i++)
+            for (int i = 0; i < contactLastIndex - contactStartIndex; i++)
             {
                 string[] pairNamePhone = myContactsList[i].Split('/');
-                string[] nameTemp = pairNamePhone[0].Split(' ');
 
                 Console.SetCursorPosition(50, 5 + i);
-                Console.Write(string.Format("{0} ", pairNamePhone[1]));
+                Console.Write("{0} ", pairNamePhone[1]);
             }
-
         }
 
         /// <summary>
-        /// Load command information in command frame
+        /// Load command info
         /// </summary>
+        /// <param name="myPhoneBook">MyPhoneBook</param>
         public static void LoadCommandInfo(Contacts myPhoneBook)
         {
             // Command block
             Console.SetCursorPosition(81, 2);
             Console.Write("Commands");
 
-            for (int i = 0; i < 10; i++) {
-                Console.SetCursorPosition(74, 4+i);
+            for (int i = 0; i < 10; i++)
+            {
+                Console.SetCursorPosition(74, 4 + i);
                 Console.Write((Commands)i);
             }
 
@@ -84,7 +87,8 @@ namespace PhoneBook
             Console.Write("Current lenght: {0}".PadRight(3,' '), myPhoneBook.GetLenght);
         }
 
-        public static void ClearInfoFrame() {
+        public static void ClearInfoFrame()
+        {
             Console.Clear();
 
             // Common frame
@@ -100,9 +104,11 @@ namespace PhoneBook
             ConsoleFrameBuilder.DrawTerminalFrame(28, 0, 38, 98);
         }
 
-        public static void ClearTerminalFrame() {
-            for (int i = 0; i < 6; i++) {
-                Console.SetCursorPosition(3, 29+i);
+        public static void ClearTerminalFrame()
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                Console.SetCursorPosition(3, 29 + i);
                 Console.Write(new string(' ', 94));
             }
         }
