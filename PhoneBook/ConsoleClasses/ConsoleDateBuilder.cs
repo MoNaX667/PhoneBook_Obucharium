@@ -11,7 +11,7 @@
         /// <param name="phoneBook">phoneBook</param>
         /// <param name="contactStartIndex">contactStartIndex</param>
         /// <param name="contactLastIndex">contactLastIndex</param>
-        public static void LoadStartInfo(Contacts phoneBook, ref int contactStartIndex, ref int contactLastIndex)
+        public static void LoadStartInfo(PhoneBook phoneBook, ref int contactStartIndex, ref int contactLastIndex)
         {
             List<string> myContactsList = new List<string>();
             int startIndex = contactStartIndex;
@@ -66,7 +66,7 @@
         /// Load command info
         /// </summary>
         /// <param name="myPhoneBook">MyPhoneBook</param>
-        public static void LoadCommandInfo(Contacts myPhoneBook)
+        public static void LoadCommandInfo(PhoneBook myPhoneBook)
         {
             // Command block
             Console.SetCursorPosition(81, 2);
