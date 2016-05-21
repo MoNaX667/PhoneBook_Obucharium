@@ -46,7 +46,8 @@
   <ItemGroup>
     <Compile Include="ConsoleClasses\ConsoleDateBuilder.cs" />
     <Compile Include="ConsoleClasses\ConsoleFrameBuilder.cs" />
-    <Compile Include="Contacts.cs" />
+    <Compile Include="Enums\SortEnum.cs" />
+    <Compile Include="PhoneBook.cs" />
     <Compile Include="CreateTestList\RandomContactListCreator.cs" />
     <Compile Include="CreateTestList\Sex.cs" />
     <Compile Include="Enums\Commands.cs" />

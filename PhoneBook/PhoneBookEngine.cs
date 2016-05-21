@@ -14,7 +14,7 @@
         {
             int contactStartIndex = 0;
             int contactEndIndex = 0;
-            Contacts myPhoneBook = new Contacts();
+            PhoneBook myPhoneBook = new PhoneBook();
             List<Person> searchList = new List<Person>();
             ConsoleDateBuilder.ClearTerminalFrame();
 
@@ -77,7 +77,7 @@
                             Search(ref myPhoneBook, ref searchList);
 
                             // Craete new phoneBook list
-                            Contacts temp = new Contacts(searchList);
+                            PhoneBook temp = new PhoneBook(searchList);
                             var endPos = searchList.Count;
 
                             // Output information
@@ -147,7 +147,7 @@
         /// <param name="contactStartIndex"></param>
         /// <param name="contactEndIndex"></param>
         private static void LoadGeneralPage(
-            Contacts phoneBook, 
+            PhoneBook phoneBook, 
             ref int contactStartIndex,
             ref int contactEndIndex)
         {
@@ -167,13 +167,13 @@
             ConsoleFrameBuilder.DrawTerminalFrame(28, 0, 38, 98);
         }   
         
-        private static void TryReadPhoneBook(string filename, Contacts myPhoneBook)
+        private static void TryReadPhoneBook(string filename, PhoneBook myPhoneBook)
         {
             // If file not found you start with clean list
             myPhoneBook.LoadContactList(filename);
         }
 
-        private static void SaveFile(string filename, Contacts myPhoneBook)
+        private static void SaveFile(string filename, PhoneBook myPhoneBook)
         {
             myPhoneBook.SaveContactList(filename);
         }
@@ -220,7 +220,7 @@
         /// Add some element in PhoneBook
         /// </summary>
         /// <param name="myPhoneBook">Reference </param>
-        private static void Add(ref Contacts myPhoneBook)
+        private static void Add(ref PhoneBook myPhoneBook)
         {
             string middleName = "";
 
@@ -313,7 +313,7 @@
         /// Delete phoneBook element by ID
         /// </summary>
         /// <param name="myPhoneBook"></param>
-        private static void DeleteById(ref Contacts myPhoneBook)
+        private static void DeleteById(ref PhoneBook myPhoneBook)
         {
             Console.SetCursorPosition(3, 29);
             Console.Write("Input id >> ");
@@ -341,7 +341,7 @@
         /// <param name="contactStartIndex"></param>
         /// <param name="contactEndIndex"></param>
         private static void MoveNextPage(
-            ref Contacts myPhoneBook,
+            ref PhoneBook myPhoneBook,
             ref int contactStartIndex,
             ref int contactEndIndex)
         {
@@ -371,7 +371,7 @@
         /// <param name="contactStartIndex"></param>
         /// <param name="contactEndIndex"></param>
         private static void MovePrevioslyPage(
-            ref Contacts myPhoneBook, 
+            ref PhoneBook myPhoneBook, 
             ref int contactStartIndex,
             ref int contactEndIndex)
         {
@@ -398,7 +398,7 @@
         /// Sorting phone book with some params 1-Surname, 2-ForName, 3-MiddleName, 4-PhoneNumber
         /// </summary>
         /// <param name="myPhoneBook"></param>
-        private static void Sort(ref Contacts myPhoneBook)
+        private static void Sort(ref PhoneBook myPhoneBook)
         {
             ConsoleDateBuilder.ClearTerminalFrame();
 
@@ -423,7 +423,7 @@
         /// Search some contact by some params
         /// </summary>
         private static void Search(
-            ref Contacts myPhoneBook,
+            ref PhoneBook myPhoneBook,
             ref List<Person> searchList)
         {
             int indexOfSearchParam;
@@ -434,90 +434,102 @@
             Console.Write("Input index of param for searching (1-surName; 2- foreName;" +
                 "3- middleName; 4- phoneNumber) >> ");
 
-            if (int.TryParse(Console.ReadLine(), out indexOfSearchParam))
+
+            if (!int.TryParse(Console.ReadLine(), out indexOfSearchParam))
             {
-                string temp;
-                if (indexOfSearchParam == 1){
-                    // surName search
-                    Console.SetCursorPosition(3, 30);
-                    Console.Write("Input target surName >> ");
-
-                    // If string is null or Empthy than break 
-                    if (!string.IsNullOrEmpty(temp = Console.ReadLine()))
-                    {
-                        // searchList contains result
-                        searchList=myPhoneBook.SearchBySurname(temp);
-                        return;
-                    }
-                    else
-                    {
-                        Console.SetCursorPosition(3, 31);
-                        Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
-                        return;
-                    }
-                }
-                else if (indexOfSearchParam == 2)
-                {
-                    // foreName search
-                    Console.SetCursorPosition(3, 30);
-                    Console.Write("Input target foreName >> ");
-
-                    // If string is null or Empthy than break 
-                    if (!string.IsNullOrEmpty(temp = Console.ReadLine()))
-                    {
-                        // searchList contains result
-                        searchList = myPhoneBook.SearchByForeName(temp);
-                        return;
-                    }
-                    else
-                    {
-                        Console.SetCursorPosition(3, 31);
-                        Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
-                        return;
-                    }
-                }
-                else if (indexOfSearchParam == 3)
-                {
-                    // middleName search
-                    Console.SetCursorPosition(3, 30);
-                    Console.Write("Input target middleName >> ");
-
-                    // If string is null or Empthy than break 
-                    if (!string.IsNullOrEmpty(temp = Console.ReadLine()))
-                    {
-                        // searchList contains result
-                        searchList = myPhoneBook.SearchByMiddleName(temp);
-                        return;
-                    }
-                    else
-                    {
-                        Console.SetCursorPosition(3, 31);
-                        Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
-                        return;
-                    }
-                }
-                else if (indexOfSearchParam == 4)
-                {
-                    // phoneNumber search
-                    Console.SetCursorPosition(3, 30);
-                    Console.Write("Input target phoneNumber (x-xxx-xxx-xxxx) >> ");
-
-                    // If string is null or Empthy than break 
-                    if (!string.IsNullOrEmpty(temp = Console.ReadLine()))
-                    {
-                        // searchList contains result
-                        searchList = myPhoneBook.SearchByPhone(temp);
-                        return;
-                    }
-                    else
-                    {
-                        Console.SetCursorPosition(3, 31);
-                        Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
-                        return;
-                    }
-                }
-
+                Console.SetCursorPosition(3, 30);
+                Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
                 return;
+            }
+
+            string temp;
+
+            switch ((SortEnum)indexOfSearchParam-1)
+            {
+                case SortEnum.BySurName:
+                {
+                        // surName search
+                        Console.SetCursorPosition(3, 30);
+                        Console.Write("Input target surName >> ");
+
+                        // If string is null or Empthy than break 
+                        if (!string.IsNullOrEmpty(temp = Console.ReadLine()))
+                        {
+                            // searchList contains result
+                            searchList = myPhoneBook.SearchBySurname(temp);
+                            return;
+                        }
+                        else
+                        {
+                            Console.SetCursorPosition(3, 31);
+                            Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
+                            return;
+                        }
+                    }
+                case SortEnum.ByForeName:
+                {
+                        // foreName search
+                        Console.SetCursorPosition(3, 30);
+                        Console.Write("Input target foreName >> ");
+
+                        // If string is null or Empthy than break 
+                        if (!string.IsNullOrEmpty(temp = Console.ReadLine()))
+                        {
+                            // searchList contains result
+                            searchList = myPhoneBook.SearchByForeName(temp);
+                            return;
+                        }
+                        else
+                        {
+                            Console.SetCursorPosition(3, 31);
+                            Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
+                            return;
+                        }
+                    }
+                case SortEnum.ByMiddleName:
+                {
+                        // middleName search
+                        Console.SetCursorPosition(3, 30);
+                        Console.Write("Input target middleName >> ");
+
+                        // If string is null or Empthy than break 
+                        if (!string.IsNullOrEmpty(temp = Console.ReadLine()))
+                        {
+                            // searchList contains result
+                            searchList = myPhoneBook.SearchByMiddleName(temp);
+                            return;
+                        }
+                        else
+                        {
+                            Console.SetCursorPosition(3, 31);
+                            Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
+                            return;
+                        }
+                    }
+                case SortEnum.ByPhoneNumber:
+                {
+                        // phoneNumber search
+                        Console.SetCursorPosition(3, 30);
+                        Console.Write("Input target phoneNumber (x-xxx-xxx-xxxx) >> ");
+
+                        // If string is null or Empthy than break 
+                        if (!string.IsNullOrEmpty(temp = Console.ReadLine()))
+                        {
+                            // searchList contains result
+                            searchList = myPhoneBook.SearchByPhone(temp);
+                            return;
+                        }
+                        else
+                        {
+                            Console.SetCursorPosition(3, 31);
+                            Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
+                            return;
+                        }
+                    }
+                default:
+                {
+                    break;
+                }
             }
 
             Console.SetCursorPosition(3, 30);
@@ -549,7 +561,7 @@
             return true;
         }
 
-        private static void CreateTestContactList(string filename, ref Contacts myPhoneBook)
+        private static void CreateTestContactList(string filename, ref PhoneBook myPhoneBook)
         {
             RandomContactListCreator creator = new RandomContactListCreator();
 
@@ -574,9 +586,9 @@
             ConsoleDateBuilder.ClearTerminalFrame();
         }
 
-        private static void ClearList(string filename, ref Contacts myPhoneBook)
+        private static void ClearList(string filename, ref PhoneBook myPhoneBook)
         {
-            myPhoneBook = new Contacts();
+            myPhoneBook = new PhoneBook();
 
             ConsoleDateBuilder.ClearInfoFrame();
             ConsoleDateBuilder.ClearTerminalFrame();

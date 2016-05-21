@@ -7,7 +7,7 @@
     /// <summary>
     /// Contact list collection with some tool for work with it
     /// </summary>
-    internal class Contacts
+    internal class PhoneBook
     {
         // Members
         private List<Person> contactList = new List<Person>();
@@ -16,7 +16,7 @@
         /// <summary>
         /// Default c-tor
         /// </summary>
-        public Contacts()
+        public PhoneBook()
         {
         }
 
@@ -24,7 +24,7 @@
         /// Parametric c-tor
         /// </summary>
         /// <param name="searchList"></param>
-        public Contacts(List<Person> searchList)
+        public PhoneBook(List<Person> searchList)
         {
             this.contactList = searchList;
         }
@@ -47,7 +47,7 @@
             if (this.CheckPhoneNumberFormat(phoneNumber))
             {
                 return false;
-            } 
+            }
 
             this.contactList.Add(new Person(surName, foreName, middleName, phoneNumber));
 
@@ -123,7 +123,6 @@
         /// <param name="filename">Filename or full path</param>
         public void SaveContactList(string filename)
         {
-
             using (StreamWriter writer = new StreamWriter(filename))
             {
                 foreach (Person t in contactList)
@@ -140,7 +139,17 @@
         /// <returns></returns>
         public List<Person> SearchBySurname(string surName)
         {
-            return contactList.Where(n => n.SurName == surName).ToList();
+            List<Person> resultList = new List<Person>();
+
+            foreach (var value in this.contactList)
+            {
+                if (value.SurName.Contains(surName))
+                {
+                    resultList.Add(value);
+                }
+            }
+
+            return resultList;
         }
 
         /// <summary>
@@ -150,7 +159,17 @@
         /// <returns></returns>
         public List<Person> SearchByForeName(string foreName)
         {
-            return contactList.Where(n => n.ForeName == foreName).ToList();
+            List<Person> resultList = new List<Person>();
+
+            foreach (var value in this.contactList)
+            {
+                if (value.ForeName.Contains(foreName))
+                {
+                    resultList.Add(value);
+                }
+            }
+
+            return resultList;
         }
 
         /// <summary>
@@ -160,7 +179,17 @@
         /// <returns></returns>
         public List<Person> SearchByMiddleName(string middleName)
         {
-            return contactList.Where(n => n.MiddleName == middleName).ToList();
+            List<Person> resultList = new List<Person>();
+
+            foreach (var value in this.contactList)
+            {
+                if (value.MiddleName.Contains(middleName))
+                {
+                    resultList.Add(value);
+                }
+            }
+
+            return resultList;
         }
 
         /// <summary>
@@ -170,7 +199,17 @@
         /// <returns></returns>
         public List<Person> SearchByPhone(string phone)
         {
-            return contactList.Where(n => n.PhoneNumber == phone).ToList();
+            List<Person> resultList = new List<Person>();
+
+            foreach (var value in this.contactList)
+            {
+                if (value.PhoneNumber.Contains(phone))
+                {
+                    resultList.Add(value);
+                }
+            }
+
+            return resultList;
         }
 
         /// <summary>
