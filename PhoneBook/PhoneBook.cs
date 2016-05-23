@@ -143,7 +143,7 @@
 
             foreach (var value in this.contactList)
             {
-                if (value.SurName.Contains(surName))
+                if (value.SurName.ToLower().Contains(surName.ToLower()))
                 {
                     resultList.Add(value);
                 }
@@ -163,7 +163,7 @@
 
             foreach (var value in this.contactList)
             {
-                if (value.ForeName.Contains(foreName))
+                if (value.ForeName.ToLower().Contains(foreName.ToLower()))
                 {
                     resultList.Add(value);
                 }
@@ -183,7 +183,7 @@
 
             foreach (var value in this.contactList)
             {
-                if (value.MiddleName.Contains(middleName))
+                if (value.MiddleName.ToLower().Contains(middleName.ToLower()))
                 {
                     resultList.Add(value);
                 }
