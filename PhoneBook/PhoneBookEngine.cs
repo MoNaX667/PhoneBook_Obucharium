@@ -1,15 +1,25 @@
-﻿namespace PhoneBook
+﻿// <copyright file="PhoneBookEngine.cs" company="Some Company">
+// Copyright (c) Sprocket Enterprises. All rights reserved.
+// </copyright>
+// <author>Vitalit Belyakov</author>
+
+namespace PhoneBook
 {
     using System;
     using System.Collections.Generic;
     using System.IO;
     using System.Linq;
 
+    /// <summary>
+    /// Phone book engine
+    /// </summary>
     internal static class PhoneBookEngine
     {
         /// <summary>
-        /// Starting application work
+        /// Start work of app
         /// </summary>
+        /// <param name="filename">File name</param>
+        /// <returns>return error status</returns>
         public static Error StartWork(string filename)
         {
             int contactStartIndex = 0;
@@ -38,6 +48,7 @@
 
                             LoadGeneralPage(myPhoneBook, ref contactStartIndex, ref contactEndIndex);
                         }
+
                         break;
 
                     // Delete By id
@@ -49,22 +60,29 @@
                             ConsoleDateBuilder.ClearInfoFrame();
                             LoadGeneralPage(myPhoneBook, ref contactStartIndex, ref contactEndIndex);
                         }
+
                         break;
 
                     // Move to next page
                     case Commands.NextPage:
                         {
-                            MoveNextPage(ref myPhoneBook, ref contactStartIndex, 
+                            MoveNextPage(
+                                ref myPhoneBook,
+                                ref contactStartIndex, 
                                 ref contactEndIndex);
                         }
+
                         break;
 
                     // Move to Previosly page
                     case Commands.PrevioslyPage:
                         {
-                            MovePrevioslyPage(ref myPhoneBook, ref contactStartIndex,
+                            MovePrevioslyPage(
+                                ref myPhoneBook,
+                                ref contactStartIndex,
                                 ref contactEndIndex);
                         }
+
                         break;
 
                     // Search
@@ -82,10 +100,13 @@
 
                             // Output information
                             ConsoleDateBuilder.ClearInfoFrame();
-                            ConsoleDateBuilder.LoadStartInfo(temp, 
-                                ref startPos, ref endPos);
+                            ConsoleDateBuilder.LoadStartInfo(
+                                temp, 
+                                ref startPos,
+                                ref endPos);
                             ConsoleDateBuilder.LoadCommandInfo(temp);
                         }
+
                         break;
 
                     // Sort
@@ -94,8 +115,12 @@
                             Sort(ref myPhoneBook);
 
                             // Load previosly page with new index
-                            LoadGeneralPage(myPhoneBook, ref contactStartIndex, ref contactEndIndex);
+                            LoadGeneralPage(
+                                myPhoneBook,
+                                ref contactStartIndex,
+                                ref contactEndIndex);
                         }
+
                         break;
 
                     // Exit from app
@@ -109,18 +134,26 @@
                     case Commands.ReturnToStartPage:
                         {
                             // Load previosly page with new index
-                            LoadGeneralPage(myPhoneBook, ref contactStartIndex, ref contactEndIndex);
+                            LoadGeneralPage(
+                                myPhoneBook, 
+                                ref contactStartIndex, 
+                                ref contactEndIndex);
                         }
+
                         break;
 
                     // Clear list
                     case Commands.ClearList:
                         {
-                            ClearList(filename,ref myPhoneBook);
+                            ClearList(filename, ref myPhoneBook);
 
                             // Load previosly page with new index
-                            LoadGeneralPage(myPhoneBook, ref contactStartIndex, ref contactEndIndex);
+                            LoadGeneralPage(
+                                myPhoneBook,
+                                ref contactStartIndex, 
+                                ref contactEndIndex);
                         }
+
                         break;
 
                     // Create test list
@@ -129,8 +162,12 @@
                             CreateTestContactList(filename, ref myPhoneBook);
 
                             // Load previosly page with new index
-                            LoadGeneralPage(myPhoneBook, ref contactStartIndex, ref contactEndIndex);
+                            LoadGeneralPage(
+                                myPhoneBook, 
+                                ref contactStartIndex, 
+                                ref contactEndIndex);
                         }
+
                         break;
                     default:
                         {
@@ -143,9 +180,9 @@
         /// <summary>
         /// Output first page with command menu
         /// </summary>
-        /// <param name="phoneBook"></param>
-        /// <param name="contactStartIndex"></param>
-        /// <param name="contactEndIndex"></param>
+        /// <param name="phoneBook">Current phone book</param>
+        /// <param name="contactStartIndex">Start contact index</param>
+        /// <param name="contactEndIndex">End contact index</param>
         private static void LoadGeneralPage(
             PhoneBook phoneBook, 
             ref int contactStartIndex,
@@ -156,7 +193,9 @@
 
             // Info frame
             ConsoleFrameBuilder.DrawInfoFrame(1, 1, 26, 64);
-            ConsoleDateBuilder.LoadStartInfo(phoneBook, ref contactStartIndex,
+            ConsoleDateBuilder.LoadStartInfo(
+                phoneBook,
+                ref contactStartIndex,
                 ref contactEndIndex);
 
             // Command frame
@@ -167,12 +206,22 @@
             ConsoleFrameBuilder.DrawTerminalFrame(28, 0, 38, 98);
         }   
         
+        /// <summary>
+        /// Try read phone book
+        /// </summary>
+        /// <param name="filename">File name</param>
+        /// <param name="myPhoneBook">Target phone book</param>
         private static void TryReadPhoneBook(string filename, PhoneBook myPhoneBook)
         {
             // If file not found you start with clean list
             myPhoneBook.LoadContactList(filename);
         }
 
+        /// <summary>
+        /// Safe file
+        /// </summary>
+        /// <param name="filename">File name</param>
+        /// <param name="myPhoneBook">Current phone book</param>
         private static void SaveFile(string filename, PhoneBook myPhoneBook)
         {
             myPhoneBook.SaveContactList(filename);
@@ -181,7 +230,7 @@
         /// <summary>
         /// Wait command input
         /// </summary>
-        /// <returns></returns>
+        /// <returns>Return user command</returns>
         private static Commands WaitUserCommand()
         {
             var oldColor = Console.ForegroundColor;
@@ -219,10 +268,10 @@
         /// <summary>
         /// Add some element in PhoneBook
         /// </summary>
-        /// <param name="myPhoneBook">Reference </param>
+        /// <param name="myPhoneBook">Reference for current phone book</param>
         private static void Add(ref PhoneBook myPhoneBook)
         {
-            string middleName = "";
+            string middleName = string.Empty;
 
             // Clear user teminal
             ConsoleDateBuilder.ClearTerminalFrame();
@@ -312,7 +361,7 @@
         /// <summary>
         /// Delete phoneBook element by ID
         /// </summary>
-        /// <param name="myPhoneBook"></param>
+        /// <param name="myPhoneBook">Current phone book</param>
         private static void DeleteById(ref PhoneBook myPhoneBook)
         {
             Console.SetCursorPosition(3, 29);
@@ -325,10 +374,9 @@
                 Console.SetCursorPosition(3, 30);
                 Console.Write("Seceed");
             }
-
-            // if id is not found show message
             else if (Error.WrongId == myPhoneBook.RemoveContactById(contactId))
             {
+                // if id is not found show message
                 Console.SetCursorPosition(3, 30);
                 Console.Write("Wrong Id");
             }
@@ -337,15 +385,19 @@
         /// <summary>
         /// Move next page
         /// </summary>
-        /// <param name="myPhoneBook"></param>
-        /// <param name="contactStartIndex"></param>
-        /// <param name="contactEndIndex"></param>
+        /// <param name="myPhoneBook">Current phone book</param>
+        /// <param name="contactStartIndex">Start contact index</param>
+        /// <param name="contactEndIndex">End contact index</param>
         private static void MoveNextPage(
             ref PhoneBook myPhoneBook,
             ref int contactStartIndex,
             ref int contactEndIndex)
         {
-            if (contactStartIndex <= 0) throw new ArgumentOutOfRangeException(nameof(contactStartIndex));
+            if (contactStartIndex <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(contactStartIndex));
+            }
+
             ConsoleDateBuilder.ClearTerminalFrame();
             ConsoleDateBuilder.ClearInfoFrame();
             contactStartIndex = contactEndIndex;
@@ -365,11 +417,11 @@
         }
 
         /// <summary>
-        /// Move to previosly page
+        /// Move to old page
         /// </summary>
-        /// <param name="myPhoneBook"></param>
-        /// <param name="contactStartIndex"></param>
-        /// <param name="contactEndIndex"></param>
+        /// <param name="myPhoneBook">Current phone book</param>
+        /// <param name="contactStartIndex">Start contact index</param>
+        /// <param name="contactEndIndex">end contact list</param>
         private static void MovePrevioslyPage(
             ref PhoneBook myPhoneBook, 
             ref int contactStartIndex,
@@ -383,9 +435,9 @@
             {
                 return;
             }
-            // if index can be taken , get new index and load new page
             else if (contactEndIndex > 20)
             {
+                // if index can be taken , get new index and load new page
                 contactStartIndex -= 20;
                 contactEndIndex -= 20;
             }
@@ -395,9 +447,9 @@
         }
 
         /// <summary>
-        /// Sorting phone book with some params 1-Surname, 2-ForName, 3-MiddleName, 4-PhoneNumber
+        /// Sorting phone book with some values 1-Surname, 2-ForName, 3-MiddleName, 4-PhoneNumber
         /// </summary>
-        /// <param name="myPhoneBook"></param>
+        /// <param name="myPhoneBook">Current phone book</param>
         private static void Sort(ref PhoneBook myPhoneBook)
         {
             ConsoleDateBuilder.ClearTerminalFrame();
@@ -420,8 +472,10 @@
         }
 
         /// <summary>
-        /// Search some contact by some params
+        /// Search some values
         /// </summary>
+        /// <param name="myPhoneBook">Current phone book</param>
+        /// <param name="searchList">List for result</param>
         private static void Search(
             ref PhoneBook myPhoneBook,
             ref List<Person> searchList)
@@ -434,7 +488,6 @@
             Console.Write("Input index of param for searching (1-surName; 2- foreName;" +
                 "3- middleName; 4- phoneNumber) >> ");
 
-
             if (!int.TryParse(Console.ReadLine(), out indexOfSearchParam))
             {
                 Console.SetCursorPosition(3, 30);
@@ -444,7 +497,7 @@
 
             string temp;
 
-            switch ((SortEnum)indexOfSearchParam-1)
+            switch ((SortEnum)indexOfSearchParam - 1)
             {
                 case SortEnum.BySurName:
                 {
@@ -466,6 +519,7 @@
                             return;
                         }
                     }
+
                 case SortEnum.ByForeName:
                 {
                         // foreName search
@@ -486,6 +540,7 @@
                             return;
                         }
                     }
+
                 case SortEnum.ByMiddleName:
                 {
                         // middleName search
@@ -506,6 +561,7 @@
                             return;
                         }
                     }
+
                 case SortEnum.ByPhoneNumber:
                 {
                         // phoneNumber search
@@ -526,6 +582,7 @@
                             return;
                         }
                     }
+
                 default:
                 {
                     break;
@@ -536,6 +593,11 @@
             Console.Write("Bad input. Operation crashed ... Press any key to return at terminal");
         }
 
+        /// <summary>
+        /// Check phone number
+        /// </summary>
+        /// <param name="phoneNumber">Phone number</param>
+        /// <returns>Return flag</returns>
         private static bool CheckPhoneNumber(string phoneNumber)
         {
             if (phoneNumber.Any(temp => (!char.IsDigit(temp) && (temp != '-'))))
@@ -561,6 +623,11 @@
             return true;
         }
 
+        /// <summary>
+        /// Create test contact list
+        /// </summary>
+        /// <param name="filename">File name</param>
+        /// <param name="myPhoneBook">Current phone book</param>
         private static void CreateTestContactList(string filename, ref PhoneBook myPhoneBook)
         {
             RandomContactListCreator creator = new RandomContactListCreator();
@@ -586,6 +653,11 @@
             ConsoleDateBuilder.ClearTerminalFrame();
         }
 
+        /// <summary>
+        /// Clear contact list
+        /// </summary>
+        /// <param name="filename">File name</param>
+        /// <param name="myPhoneBook">Current phone book</param>
         private static void ClearList(string filename, ref PhoneBook myPhoneBook)
         {
             myPhoneBook = new PhoneBook();
