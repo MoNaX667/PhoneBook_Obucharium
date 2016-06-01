@@ -1,4 +1,9 @@
-﻿namespace PhoneBook
+﻿// <copyright file="PhoneBook.cs" company="Some Company">
+// Copyright (c) Sprocket Enterprises. All rights reserved.
+// </copyright>
+// <author>Vitalit Belyakov</author>
+
+namespace PhoneBook
 {
     using System.Collections.Generic;
     using System.IO;
@@ -10,25 +15,33 @@
     internal class PhoneBook
     {
         // Members
+
+        /// <summary>
+        /// Input contact list
+        /// </summary>
         private List<Person> contactList = new List<Person>();
 
         // C-tors
+
         /// <summary>
-        /// Default c-tor
+        /// Initializes a new instance of the<see cref="PhoneBook"/> class default
         /// </summary>
         public PhoneBook()
         {
         }
 
         /// <summary>
-        /// Parametric c-tor
+        /// Initializes a new instance of the <see cref="PhoneBook"/> class parametric c-tor
         /// </summary>
-        /// <param name="searchList"></param>
+        /// <param name="searchList">search list</param>
         public PhoneBook(List<Person> searchList)
         {
             this.contactList = searchList;
         }
 
+        /// <summary>
+        /// Gets count of the book
+        /// </summary>
         public int GetLenght => this.contactList.Count;
 
         ////////////////////            Public           ////////////////////
@@ -60,7 +73,7 @@
         /// </summary>
         /// <param name="id">Contact id . It's must be bigger than 0 and less 
         /// than max id in contact book</param>
-        /// <returns></returns>
+        /// <returns>Return error</returns>
         public Error RemoveContactById(int id)
         {
             if (id > 0 && id <= this.contactList.Count)
@@ -75,15 +88,14 @@
         }
 
         /// <summary>
-        /// Method must return list of string , than saved names and phone numbers seporated 
-        /// by char '/'
+        /// Method must return list of string , than saved names and phone numbers by char '/'
         /// </summary>
         /// <returns>Error message</returns>
         public List<string> GetListOfContacts()
         {
             List<string> tempContactsList = new List<string>();
 
-            foreach (Person value in contactList)
+            foreach (Person value in this.contactList)
             {
                 tempContactsList.Add(string.Format("{0}/{1}", value.Name, value.PhoneNumber));
             }
@@ -94,7 +106,7 @@
         /// <summary>
         /// Load contact list
         /// </summary>
-        /// <param name="filename"></param>
+        /// <param name="filename">File name</param>
         /// <returns>Filename to reading</returns>
         public Error LoadContactList(string filename)
         {
@@ -109,8 +121,11 @@
                 while (!reader.EndOfStream)
                 {
                     var personParams = reader.ReadLine().Split(' ');
-                    this.contactList.Add(new Person(personParams[0], personParams[1],
-                        personParams[2], personParams[3]));
+                    this.contactList.Add(new Person(
+                        personParams[0], 
+                        personParams[1],
+                        personParams[2],
+                        personParams[3]));
                 }
             }
 
@@ -125,7 +140,7 @@
         {
             using (StreamWriter writer = new StreamWriter(filename))
             {
-                foreach (Person t in contactList)
+                foreach (Person t in this.contactList)
                 {
                     writer.WriteLine("{0} {1}", t.Name, t.PhoneNumber);
                 }
@@ -135,8 +150,8 @@
         /// <summary>
         /// Sorting by surName
         /// </summary>
-        /// <param name="surName"></param>
-        /// <returns></returns>
+        /// <param name="surName">Target surname</param>
+        /// <returns>Return list of matches</returns>
         public List<Person> SearchBySurname(string surName)
         {
             List<Person> resultList = new List<Person>();
@@ -155,8 +170,8 @@
         /// <summary>
         /// Sorting by forename
         /// </summary>
-        /// <param name="foreName"></param>
-        /// <returns></returns>
+        /// <param name="foreName">Target forename</param>
+        /// <returns>Return list of the matches</returns>
         public List<Person> SearchByForeName(string foreName)
         {
             List<Person> resultList = new List<Person>();
@@ -175,8 +190,8 @@
         /// <summary>
         /// Sorting by middleName
         /// </summary>
-        /// <param name="middleName"></param>
-        /// <returns></returns>
+        /// <param name="middleName">Target middle name</param>
+        /// <returns>Return list of the matches</returns>
         public List<Person> SearchByMiddleName(string middleName)
         {
             List<Person> resultList = new List<Person>();
@@ -195,8 +210,8 @@
         /// <summary>
         /// Sorting by phoneNumber
         /// </summary>
-        /// <param name="phone"></param>
-        /// <returns></returns>
+        /// <param name="phone">Target of the phone number</param>
+        /// <returns>Return list of the matches</returns>
         public List<Person> SearchByPhone(string phone)
         {
             List<Person> resultList = new List<Person>();
@@ -213,7 +228,7 @@
         }
 
         /// <summary>
-        /// Sort phoneBook by any of contact parametrs if type of sorting different from 
+        /// Sort phoneBook by any of contact values if type of sorting different from 
         /// inside  sorting crashed
         /// </summary>
         /// <param name="type">type of operation 1- By surName; 2- By foreName; 3- By middleName;
@@ -245,10 +260,10 @@
         ////////////////////       Private         ///////////////////////////
 
         /// <summary>
-        /// Check string with phone number for phone format
+        /// Check phone number format
         /// </summary>
-        /// <param name="phoneNumber">PhoneNumber</param>
-        /// <returns></returns>
+        /// <param name="phoneNumber">Target phone number</param>
+        /// <returns>Return flag</returns>
         private bool CheckPhoneNumberFormat(string phoneNumber)
         {
             for (int i = 0; i < phoneNumber.Length; i++)
